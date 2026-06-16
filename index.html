@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Graduación · Jennifer Abigail</title>
+<style>
+  @font-face{font-family:'Athelas';src:url('./fonts/Athelas.woff2') format('woff2');font-display:swap;}
+  @font-face{font-family:'Jost';src:url('./fonts/Jost.woff2') format('woff2');font-display:swap;}
+
+  :root{
+    --navy:#13213d; --navy2:#1a2c4d; --silver:#c2c8d2; --silver-d:#8b94a3; --silver-l:#eef1f6;
+    --cream:#f2ecdd; --soft:#9fb0c9; --line:rgba(194,200,210,.26);
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{background:var(--navy);color:var(--cream);}
+  body{font-family:'Jost',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  a{color:inherit;}
+  img{display:block;}
+  .wrap{max-width:480px;margin:0 auto;position:relative;}
+  .serif{font-family:'Athelas',serif;font-weight:400;}
+
+  .foil{background:linear-gradient(180deg,var(--silver-l) 0%,var(--silver) 50%,var(--silver-d) 100%);
+        -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .label{font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--silver);font-weight:500;}
+  section{padding:74px 32px;position:relative;text-align:center;}
+  .navy2{background:var(--navy2);}
+  .rule{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--silver),transparent);margin:0 auto;transform-origin:center;}
+
+  .btn{display:inline-block;margin-top:18px;padding:13px 28px;font-size:11px;letter-spacing:.26em;
+       text-transform:uppercase;color:var(--silver-l);border:1px solid var(--silver);border-radius:2px;
+       text-decoration:none;background:transparent;cursor:pointer;transition:background .5s var(--ease),color .5s var(--ease);}
+  .btn:hover{background:var(--silver);color:var(--navy);}
+  .link{display:inline-block;margin-top:12px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+        color:var(--cream);border-bottom:1px solid var(--silver);padding-bottom:3px;text-decoration:none;}
+
+  /* ===== PUERTA / MÚSICA ===== */
+  #gate{position:fixed;inset:0;z-index:60;background:var(--navy);display:flex;flex-direction:column;
+        align-items:center;justify-content:center;gap:22px;text-align:center;padding:40px;
+        transition:opacity 1.1s var(--ease),visibility 1.1s;}
+  #gate.hidden{opacity:0;visibility:hidden;}
+  #gate .g-logo{width:160px;height:auto;}
+  #gate .g-sub{font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--soft);}
+  #gate .g-open{margin-top:8px;display:inline-flex;align-items:center;gap:10px;padding:14px 30px;
+        border:1px solid var(--silver);border-radius:40px;font-size:11px;letter-spacing:.28em;
+        text-transform:uppercase;color:var(--silver-l);cursor:pointer;background:transparent;animation:pulse 2.6s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
+
+  #music{position:fixed;top:16px;right:16px;z-index:50;width:42px;height:42px;border-radius:50%;
+         border:1px solid var(--line);background:rgba(19,33,61,.7);backdrop-filter:blur(6px);
+         display:none;align-items:center;justify-content:center;cursor:pointer;color:var(--silver);}
+  body.entered #music{display:flex;}
+  #music .bar{width:2px;height:11px;background:currentColor;margin:0 1px;border-radius:2px;animation:eq 1s ease-in-out infinite;}
+  #music .bar:nth-child(2){animation-delay:.2s;height:15px;} #music .bar:nth-child(3){animation-delay:.4s;}
+  @keyframes eq{0%,100%{transform:scaleY(.5);}50%{transform:scaleY(1);}}
+  #music.paused .bar{animation-play-state:paused;}
+
+  /* ===== HERO ===== */
+  .hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:120%;height:70%;
+        background:radial-gradient(closest-side,rgba(194,200,210,.12),transparent 70%);z-index:0;animation:glow 9s ease-in-out infinite alternate;}
+  @keyframes glow{from{opacity:.6;}to{opacity:1;}}
+  .hero>*{position:relative;z-index:1;}
+  .hero .logo{width:clamp(170px,46vw,215px);height:auto;}
+  .hero .pre{font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:var(--soft);}
+  .hero .deg{font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:var(--cream);}
+  .hero .gradname{font-family:'Athelas',serif;font-size:clamp(28px,8.6vw,40px);line-height:1.12;}
+  .hero .meta{font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--soft);line-height:2.2;}
+
+  .laurel{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--silver);}
+  .laurel svg{width:26px;height:36px;}
+  .laurel .yr{font-size:12px;letter-spacing:.24em;text-transform:uppercase;}
+
+  /* ===== ÍCONOS ===== */
+  .ico{color:var(--silver);}
+  .ico path,.ico circle,.ico rect,.ico line,.ico ellipse,.ico polyline{stroke:currentColor;stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  .sec-ico{width:42px;height:42px;display:block;margin:0 auto 16px;}
+  .ev-ico{width:30px;height:30px;display:block;margin:0 auto 12px;}
+
+  /* ===== MENSAJE ===== */
+  .msg .quote{font-family:'Athelas',serif;font-size:25px;line-height:1.5;max-width:8in;margin:0 auto;color:var(--cream);}
+  .msg .quote em{color:var(--silver);font-style:italic;}
+
+  /* ===== FOTO GRUPO ===== */
+  .photo .frame{margin:24px auto 0;max-width:390px;border:1px solid var(--line);border-radius:12px;padding:8px;background:var(--navy2);}
+  .photo .frame img{width:100%;border-radius:7px;}
+  .photo .cap{margin-top:14px;font-size:13px;letter-spacing:.06em;color:var(--soft);}
+
+  /* ===== DETALLES ===== */
+  .details .event{padding:26px 0;border-top:1px solid var(--line);}
+  .details .event:last-child{border-bottom:1px solid var(--line);}
+  .details .time{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--silver);margin-bottom:8px;}
+  .details h3{font-family:'Athelas',serif;font-size:24px;margin-bottom:6px;}
+  .details p{font-size:14px;color:var(--soft);line-height:1.6;}
+
+  /* ===== COUNTDOWN ===== */
+  .count h2{font-family:'Athelas',serif;font-size:28px;margin:6px 0 28px;}
+  .cd{display:flex;justify-content:center;gap:14px;}
+  .cd .u{display:flex;flex-direction:column;gap:8px;min-width:60px;}
+  .cd .n{font-family:'Athelas',serif;font-size:44px;line-height:1;}
+  .cd .l{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft);}
+
+  /* ===== BLOQUES ===== */
+  .blk h2{font-family:'Athelas',serif;font-size:28px;margin:8px 0 12px;}
+  .blk p{font-size:14px;color:var(--soft);line-height:1.7;max-width:330px;margin:0 auto;}
+
+  /* ===== RSVP ===== */
+  .rsvp{background:var(--navy2);}
+  .rsvp h2{font-family:'Athelas',serif;font-size:30px;margin:8px 0 10px;}
+  .rsvp p{font-size:14px;color:var(--soft);line-height:1.7;max-width:330px;margin:0 auto;}
+
+  footer{padding:46px 30px 58px;text-align:center;}
+  footer .f-logo{width:92px;height:auto;margin:0 auto 16px;opacity:.92;}
+  footer .f-name{font-family:'Athelas',serif;font-size:21px;}
+  footer .credit{margin-top:14px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--soft);}
+
+  /* ===== MOTION ===== */
+  .reveal{opacity:0;transform:translateY(26px);filter:blur(6px);
+          transition:opacity 1.1s var(--ease),transform 1.1s var(--ease),filter 1.1s var(--ease);}
+  .reveal.in{opacity:1;transform:none;filter:none;}
+  .rule.reveal{transform:scaleX(0);} .rule.reveal.in{transform:scaleX(1);}
+  .laurel path{stroke:currentColor;stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  @keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+  .float{animation:floaty 6s ease-in-out infinite;}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1!important;transform:none!important;filter:none!important;}
+    .float,#gate .g-open,.hero::after{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+  body.still .reveal{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;}
+</style>
+</head>
+<body>
+
+<!-- ====== PUERTA ====== -->
+<div id="gate">
+  <img class="g-logo float" src="./logo-blanco.png" alt="Gandhi Colegio Prepa">
+  <div class="g-sub">Te invito a mi graduación</div>
+  <button class="g-open" id="enter">▶ Abrir invitación</button>
+</div>
+
+<div id="music" class="paused"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+<audio id="audio" loop preload="none"><source src="./music/sueña.mp3" type="audio/mpeg"></audio>
+
+<div class="wrap">
+
+  <!-- ====== HERO ====== -->
+  <section class="hero">
+    <img class="logo reveal float" src="./logo-blanco.png" alt="Gandhi Colegio Prepa">
+    <div class="pre reveal">Me gradúo de</div>
+    <div class="deg reveal">Preparatoria</div>
+    <div class="rule reveal"></div>
+    <div class="label reveal" style="letter-spacing:.5em;margin-bottom:-4px;">Generación</div>
+    <div class="gradname foil reveal">Jennifer Abigail<br>Ponce Alcaraz</div>
+    <div class="laurel reveal">
+      <svg viewBox="0 0 30 40"><path d="M22 38 C12 30 8 20 12 4 M22 30 C16 30 12 27 11 22 M22 22 C16 22 13 19 12 15 M22 15 C17 15 14 13 13 9"/></svg>
+      <span class="yr">2023 – 2026</span>
+      <svg viewBox="0 0 30 40" style="transform:scaleX(-1)"><path d="M22 38 C12 30 8 20 12 4 M22 30 C16 30 12 27 11 22 M22 22 C16 22 13 19 12 15 M22 15 C17 15 14 13 13 9"/></svg>
+    </div>
+    <div class="meta reveal">Sábado 20 de Junio · 2026</div>
+  </section>
+
+  <!-- ====== MENSAJE ====== -->
+  <section class="msg navy2">
+    <div class="label reveal">Por fin</div>
+    <p class="quote reveal" style="margin-top:18px;">Hoy culmina una etapa de <em>esfuerzo y sueños</em>, y comienza un nuevo camino. Gracias por ser parte de mi historia.</p>
+  </section>
+
+  <!-- ====== FOTO DEL GRUPO ====== -->
+  <section class="photo">
+    <div class="label reveal">Nuestra generación</div>
+    <div class="frame reveal"><img src="./foto%20grupo.jpeg" alt="Generación 2023 - 2026"></div>
+    <div class="cap reveal">Generación 2023 – 2026</div>
+  </section>
+
+  <!-- ====== DETALLES ====== -->
+  <section class="details navy2">
+    <div class="label reveal">El gran día</div>
+    <div class="event reveal">
+      <svg class="ico ev-ico" viewBox="0 0 48 48"><path d="M24 3 V9 M21 6 H27"/><path d="M13 22 L24 11 L35 22"/><path d="M16 22 V41 H32 V22"/><path d="M21 41 V33 a3 3 0 0 1 6 0 V41"/><path d="M11 41 H37"/></svg>
+      <div class="time">7:00 PM · Misa de Acción de Gracias</div>
+      <h3>Parroquia del Espíritu Santo</h3>
+      <a class="link" href="https://maps.app.goo.gl/cjxUb3VR1vzgW4aQ9" target="_blank" rel="noopener">Ver ubicación</a>
+    </div>
+    <div class="event reveal">
+      <svg class="ico ev-ico" viewBox="0 0 48 48"><path d="M24 5 V9"/><circle cx="24" cy="23" r="13"/><line x1="11" y1="23" x2="37" y2="23"/><line x1="24" y1="10" x2="24" y2="36"/><ellipse cx="24" cy="23" rx="6.5" ry="13"/><path d="M13.5 16 H34.5 M13.5 30 H34.5"/><path d="M40 33 l2 2 M9 13 l-2 -2"/></svg>
+      <div class="time">9:00 PM · Recepción</div>
+      <h3>Salón María Elena</h3>
+      <p>Hotel María Isabel</p>
+      <a class="link" href="https://maps.app.goo.gl/sykW7QknQyrgXbtNA" target="_blank" rel="noopener">Ver ubicación</a>
+    </div>
+  </section>
+
+  <!-- ====== COUNTDOWN ====== -->
+  <section class="count">
+    <svg class="ico sec-ico reveal" viewBox="0 0 48 48"><path d="M14 5 H34"/><path d="M14 43 H34"/><path d="M17 5 V12 L24 24 L17 36 V43"/><path d="M31 5 V12 L24 24 L31 36 V43"/><path d="M19.5 13 H28.5"/><path d="M24 24 V31"/><path d="M20 41 Q24 33 28 41"/></svg>
+    <div class="label reveal">Faltan</div>
+    <h2 class="serif reveal foil">Para mi graduación</h2>
+    <div class="cd reveal">
+      <div class="u"><span class="n foil" id="cd-d">00</span><span class="l">Días</span></div>
+      <div class="u"><span class="n foil" id="cd-h">00</span><span class="l">Horas</span></div>
+      <div class="u"><span class="n foil" id="cd-m">00</span><span class="l">Min</span></div>
+      <div class="u"><span class="n foil" id="cd-s">00</span><span class="l">Seg</span></div>
+    </div>
+    <a class="btn reveal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Graduaci%C3%B3n+Jennifer+Abigail&dates=20260621T010000Z/20260621T060000Z&location=Parroquia+del+Esp%C3%ADritu+Santo" target="_blank" rel="noopener">Agendar la fecha</a>
+  </section>
+
+  <!-- ====== VESTIMENTA ====== -->
+  <section class="blk dress navy2">
+    <svg class="ico reveal" style="width:60px;height:42px;display:block;margin:0 auto 16px;" viewBox="0 0 60 44"><path d="M15 7 Q18 9 21 7"/><path d="M15 7 C14 13 13 15 12 20 L9 37 H27 L24 20 C23 15 22 13 21 7"/><path d="M13.5 20 H22.5"/><path d="M39 7 L43 11 L47 7"/><path d="M39 7 L36 12 L37.5 37 H48.5 L50 12 L47 7"/><path d="M43 11 L40 16 M43 11 L46 16"/><path d="M40.5 15.5 L43 17.5 L45.5 15.5 L44.5 13.5 L41.5 13.5 Z"/></svg>
+    <div class="label reveal">Código de vestimenta</div>
+    <h2 class="reveal foil">Formal</h2>
+    <p class="reveal">Te esperamos con tu mejor atuendo formal para celebrar juntos esta noche.</p>
+  </section>
+
+  <!-- ====== GALERÍA ====== -->
+  <section class="blk">
+    <svg class="ico sec-ico reveal" viewBox="0 0 48 48"><path d="M7 17 H15 L18 12 H30 L33 17 H41 a2 2 0 0 1 2 2 V36 a2 2 0 0 1 -2 2 H7 a2 2 0 0 1 -2 -2 V19 a2 2 0 0 1 2 -2Z"/><circle cx="24" cy="27" r="7"/><circle cx="24" cy="27" r="3"/><path d="M37 21 h1.5"/></svg>
+    <div class="label reveal">Comparte tus momentos</div>
+    <h2 class="reveal foil">Galería compartida</h2>
+    <p class="reveal">Sube tus fotos y videos de la noche a nuestro álbum colaborativo.</p>
+    <a class="btn reveal" href="https://photos.app.goo.gl/m1bjF1DzJBaxyrSs8" target="_blank" rel="noopener">Únete al álbum</a>
+  </section>
+
+  <!-- ====== RSVP (a Google Forms) ====== -->
+  <section class="rsvp" id="rsvp">
+    <svg class="ico sec-ico reveal" viewBox="0 0 48 48"><rect x="8" y="13" width="32" height="22" rx="2"/><path d="M9.5 15 L24 26 L38.5 15"/></svg>
+    <div class="label reveal">Confirma tu asistencia</div>
+    <h2 class="reveal foil">¿Nos acompañas?</h2>
+    <p class="reveal">Tu confirmación nos ayuda a organizar todo con cariño. Por favor confírmanos en el siguiente enlace.</p>
+    <a class="btn reveal" href="https://docs.google.com/forms/d/e/1FAIpQLSeTGGYYiAZxYhSifyvbaOytTke1eikggbufcY_ETx3MWPnOwg/viewform" target="_blank" rel="noopener">Confirmar asistencia</a>
+  </section>
+
+  <footer>
+    <img class="f-logo" src="./logo-blanco.png" alt="Gandhi Colegio Prepa">
+    <div class="f-name foil">Jennifer Abigail Ponce Alcaraz</div>
+    <div class="credit">Generación 2023 – 2026 · Diez Creatividad</div>
+  </footer>
+
+</div>
+
+<script>
+  var params = new URLSearchParams(location.search);
+
+  var gate=document.getElementById('gate'), audio=document.getElementById('audio'), music=document.getElementById('music');
+  var heroReveals=document.querySelectorAll('.hero .reveal');
+  function enter(){
+    gate.classList.add('hidden'); document.body.classList.add('entered');
+    heroReveals.forEach(function(el){ el.classList.add('in'); });
+    audio.play().then(function(){ music.classList.remove('paused'); }).catch(function(){});
+  }
+  if (params.get('demo')){ document.body.classList.add('still','entered'); gate.classList.add('hidden'); }
+  document.getElementById('enter').addEventListener('click', enter);
+  music.addEventListener('click', function(){
+    if (audio.paused){ audio.play().then(function(){music.classList.remove('paused');}).catch(function(){}); }
+    else { audio.pause(); music.classList.add('paused'); }
+  });
+
+  document.querySelectorAll('section, footer').forEach(function(sec){
+    Array.prototype.forEach.call(sec.querySelectorAll('.reveal'), function(el,i){ el.style.transitionDelay=(i*0.09)+'s'; });
+  });
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:0.14});
+  document.querySelectorAll('.reveal').forEach(function(el){ if(el.closest('.hero'))return; io.observe(el); });
+
+  var target=new Date('2026-06-20T19:00:00');
+  function pad(n,l){return String(n).padStart(l,'0');}
+  function tick(){
+    var diff=target-new Date(); if(diff<0)diff=0;
+    document.getElementById('cd-d').textContent=pad(Math.floor(diff/86400000),2);
+    document.getElementById('cd-h').textContent=pad(Math.floor(diff%86400000/3600000),2);
+    document.getElementById('cd-m').textContent=pad(Math.floor(diff%3600000/60000),2);
+    document.getElementById('cd-s').textContent=pad(Math.floor(diff%60000/1000),2);
+  }
+  tick(); setInterval(tick,1000);
+</script>
+</body>
+</html>
